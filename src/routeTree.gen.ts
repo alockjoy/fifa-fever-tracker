@@ -13,6 +13,7 @@ import { Route as TeamsRouteImport } from './routes/teams'
 import { Route as QualificationRouteImport } from './routes/qualification'
 import { Route as MatchesRouteImport } from './routes/matches'
 import { Route as GroupsRouteImport } from './routes/groups'
+import { Route as BracketRouteImport } from './routes/bracket'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TeamsRoute = TeamsRouteImport.update({
@@ -35,6 +36,11 @@ const GroupsRoute = GroupsRouteImport.update({
   path: '/groups',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BracketRoute = BracketRouteImport.update({
+  id: '/bracket',
+  path: '/bracket',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bracket': typeof BracketRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
   '/qualification': typeof QualificationRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bracket': typeof BracketRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
   '/qualification': typeof QualificationRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bracket': typeof BracketRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
   '/qualification': typeof QualificationRoute
@@ -65,14 +74,28 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/groups' | '/matches' | '/qualification' | '/teams'
+  fullPaths:
+    | '/'
+    | '/bracket'
+    | '/groups'
+    | '/matches'
+    | '/qualification'
+    | '/teams'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/groups' | '/matches' | '/qualification' | '/teams'
-  id: '__root__' | '/' | '/groups' | '/matches' | '/qualification' | '/teams'
+  to: '/' | '/bracket' | '/groups' | '/matches' | '/qualification' | '/teams'
+  id:
+    | '__root__'
+    | '/'
+    | '/bracket'
+    | '/groups'
+    | '/matches'
+    | '/qualification'
+    | '/teams'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BracketRoute: typeof BracketRoute
   GroupsRoute: typeof GroupsRoute
   MatchesRoute: typeof MatchesRoute
   QualificationRoute: typeof QualificationRoute
@@ -109,6 +132,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bracket': {
+      id: '/bracket'
+      path: '/bracket'
+      fullPath: '/bracket'
+      preLoaderRoute: typeof BracketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -121,6 +151,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BracketRoute: BracketRoute,
   GroupsRoute: GroupsRoute,
   MatchesRoute: MatchesRoute,
   QualificationRoute: QualificationRoute,
