@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamsRouteImport } from './routes/teams'
 import { Route as QualificationRouteImport } from './routes/qualification'
 import { Route as MatchesRouteImport } from './routes/matches'
 import { Route as GroupsRouteImport } from './routes/groups'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TeamsRoute = TeamsRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QualificationRoute = QualificationRouteImport.update({
   id: '/qualification',
   path: '/qualification',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
   '/qualification': typeof QualificationRoute
+  '/teams': typeof TeamsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
   '/qualification': typeof QualificationRoute
+  '/teams': typeof TeamsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
   '/qualification': typeof QualificationRoute
+  '/teams': typeof TeamsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/groups' | '/matches' | '/qualification'
+  fullPaths: '/' | '/groups' | '/matches' | '/qualification' | '/teams'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/groups' | '/matches' | '/qualification'
-  id: '__root__' | '/' | '/groups' | '/matches' | '/qualification'
+  to: '/' | '/groups' | '/matches' | '/qualification' | '/teams'
+  id: '__root__' | '/' | '/groups' | '/matches' | '/qualification' | '/teams'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   GroupsRoute: typeof GroupsRoute
   MatchesRoute: typeof MatchesRoute
   QualificationRoute: typeof QualificationRoute
+  TeamsRoute: typeof TeamsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/teams': {
+      id: '/teams'
+      path: '/teams'
+      fullPath: '/teams'
+      preLoaderRoute: typeof TeamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/qualification': {
       id: '/qualification'
       path: '/qualification'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   GroupsRoute: GroupsRoute,
   MatchesRoute: MatchesRoute,
   QualificationRoute: QualificationRoute,
+  TeamsRoute: TeamsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
