@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "fifa-fever-tracker",
-  "main": "@tanstack/react-start/server-entry",
+  "main": "dist/server/server.js",
   "compatibility_date": "2026-06-01",
   "compatibility_flags": [
     "nodejs_compat"
