@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as QualificationRouteImport } from './routes/qualification'
 import { Route as MatchesRouteImport } from './routes/matches'
 import { Route as GroupsRouteImport } from './routes/groups'
 import { Route as IndexRouteImport } from './routes/index'
 
+const QualificationRoute = QualificationRouteImport.update({
+  id: '/qualification',
+  path: '/qualification',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MatchesRoute = MatchesRouteImport.update({
   id: '/matches',
   path: '/matches',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
+  '/qualification': typeof QualificationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
+  '/qualification': typeof QualificationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/groups': typeof GroupsRoute
   '/matches': typeof MatchesRoute
+  '/qualification': typeof QualificationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/groups' | '/matches'
+  fullPaths: '/' | '/groups' | '/matches' | '/qualification'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/groups' | '/matches'
-  id: '__root__' | '/' | '/groups' | '/matches'
+  to: '/' | '/groups' | '/matches' | '/qualification'
+  id: '__root__' | '/' | '/groups' | '/matches' | '/qualification'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GroupsRoute: typeof GroupsRoute
   MatchesRoute: typeof MatchesRoute
+  QualificationRoute: typeof QualificationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/qualification': {
+      id: '/qualification'
+      path: '/qualification'
+      fullPath: '/qualification'
+      preLoaderRoute: typeof QualificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/matches': {
       id: '/matches'
       path: '/matches'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GroupsRoute: GroupsRoute,
   MatchesRoute: MatchesRoute,
+  QualificationRoute: QualificationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
