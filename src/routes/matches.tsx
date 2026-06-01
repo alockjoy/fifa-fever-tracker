@@ -68,7 +68,7 @@ function MatchesPage() {
         >
           <option value="">All Groups</option>
           {groups.map((g) => (
-            <option key={g} value={g}>{g!.replace(/_/g, " ")}</option>
+            <option key={g} value={g ?? ""}>{(g ?? "").replace(/_/g, " ")}</option>
           ))}
         </select>
         <select
